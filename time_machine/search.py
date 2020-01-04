@@ -17,6 +17,8 @@ class Archive():
 		if archive == 'ia':
 			self.name = 'Internet Archive'
 			self.cdx_server = 'http://web.archive.org/cdx/search/cdx'
+			self.archive_root = 'https://web.archive.org/web/'
+			self.timestamp_suffix='id_'
 			pass
 		else:
 			print('This archive is curently not implemented')
@@ -103,14 +105,21 @@ class Archive():
 	def check_incomplete():
 		pass
 
-	def query(self, query_url, exact_match=False, interval='all', results_per_interval=1, pattern=None, diversify_all=False, diversify_intervals=False ,start_date=None, end_date=None, filter_errors=True, filter_redirects=True, filter_revisits=True):
+	def query(self, query_url, include_subpages=False, include_subdomains=False, interval='all', results_per_interval=1, pattern=None, diversify_all=False, diversify_intervals=False ,start_date=None, end_date=None, filter_errors=True, filter_redirects=True, filter_revisits=True):
 
-		if exact_match:
-			if query_url.endswith('*'):
-				query_url = query_url[:-1]
-		else:
+		if include_subpages:
 			if not query_url.endswith('*'):
 				query_url = query_url + '*'
+		else:	
+			if query_url.endswith('*'):
+				query_url = query_url[:-1]
+		
+		if include_subdomains:
+			if query_url.startswith('www.'):
+				query_url = '*' + query_url[4:]
+		else:
+			if query_url.startswith('*'):
+				query_url = query_url[1:]
 		
 		if start_date:
 			start_date = parser.parse(start_date)
@@ -121,6 +130,9 @@ class Archive():
 		else:
 			end_date = datetime.now()
 
+		if start_date > end_date:
+			print('Start date needs to be before end date.')
+			return
 
 		if interval == 'all':
 			pass
@@ -147,11 +159,22 @@ class Archive():
 
 			tmp_end = self.get_wb_date(end_date, end=True)
 			time_slots.append(tmp_end)
-				
-			#return time_slots
 
 		results = self.get(query_url, pattern, time_slots, diversify_all, diversify_intervals, results_per_interval, filter_errors, filter_redirects, filter_revisits)
+		results['archive_url'] = results.apply(self.get_archive_url, axis=1)
+		results['archive_url_without_timeline'] = results.apply(self.get_clean_archive_url, axis=1)
+		results = results[['urlkey', 'archive_url', 'archive_url_without_timeline', 'statuscode', 'mimetype']]
+
 		return results
+
+	def get_archive_url(self, x):
+		archive_url = self.archive_root + str(x['timestamp']) + '/' + x['original']
+		return archive_url
+
+	def get_clean_archive_url(self, x):
+		archive_url = self.archive_root + str(x['timestamp']) + self.timestamp_suffix + '/' + x['original']
+		return archive_url
+
 
 	def get_wb_date(self, date, start=False, end=False):
 		tmp_year = str(date.year)
