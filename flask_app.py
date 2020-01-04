@@ -63,7 +63,7 @@ def page():
     fnp6 = re.sub(r'\W', '_', diversify if diversify else '_')
     fnp7 = re.sub(r'\W', '_', start_date if start_date else '_')
     fnp8 = re.sub(r'\W', '_', end_date if end_date else '_')
-    csv_file_name = f'was-{fnp1}-{fnp2}-{fnp3}-{fnp4}-{fnp5}-{fnp6}-{fnp7}-{fnp8}.csv'
+    csv_file_name = f'waps-{fnp1}-{fnp2}-{fnp3}-{fnp4}-{fnp5}-{fnp6}-{fnp7}-{fnp8}.csv'
 
     outpath = os.path.join('static', 'downloads')
 
