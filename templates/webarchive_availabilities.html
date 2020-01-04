@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <title>{{tool_name}}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container pt-4">
+            <div class="row">
+                <div class="col-2"></div>
+
+                <div id="tool" class="col-8">
+                    <h1>{{tool_name}}</h1>
+                    
+                    <div class="row pt-4 pb-4">
+                        <div class="col-6">
+                            <div id="input">
+                                <form method="POST">
+                                    <div class="form-group row">
+                                        <div class="col">
+                                            <label for="query">URL to Query</label>
+                                            <input class="form-control" name="query" placeholder="Enter URL" 
+                                            value="{{query}}">
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <!--
+                                        <div class="col">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" name="include_subdomains" id="include_subdomains" value="True">
+                                                <label class="form-check-label" for="include_subdomains">Include Subdomains</label>
+                                            </div>
+                                        </div>
+                                        -->
+                                        <div class="col">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" name="include_subpages" id="include_subpages" value="True" checked="checked">
+                                                <label class="form-check-label" for="include_subpages">Include Subpages</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group row">
+                                        
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-8">
+                                            <label for="exampleFormControlSelect1">Sampling Interval</label>
+                                            <select class="form-control" id="interval", name="interval">
+                                                <option value="year">Year</option>
+                                                <option value="month">Month</option>
+                                                <option value="week">Week</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-4">
+                                            <label for="query">Sample Size</label>
+                                            <input class="form-control" name="results_per_interval" placeholder="10" 
+                                            value="{{results_per_interval}}">
+                                            </small>
+                                        </div>
+                                      </div>
+                                    <div class="form-group row">
+                                        <div class="form-check form-check-inline">
+                                            <div class="col">
+                                                <input class="form-check-input" type="radio" name="diversify" id="diversify_sample" value="diversify_sample">
+                                                <label class="form-check-label" for="diversify_sample">Diversify Sample</label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-check form-check-inline">
+                                            <div class="col">
+                                                <input class="form-check-input" type="radio" name="diversify" id="diversify_all" value="diversify_all">
+                                                <label class="form-check-label" for="diversify_all">Diversify Results</label>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                   
+                                    <div class="row">
+                                        <div class="col">
+                                            <p>Choose a start and end date to limit the search period. Leave empty for sampling all availabilities.</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">    
+                                        <div class="col">
+                                            <label for="start_date">Start date</label>
+                                            <input type="date" class="form-control" name="start_date" placeholder="YYYY-MM-DD" value="{{start_date}}">
+                                        </div>
+                                        <div class="col">
+                                            <label for="end_date">End date</label>
+                                            <input type="date" class="form-control" name="end_date" placeholder="YYYY-MM-DD" value="{{end_date}}">
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-dark">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-6 pt-4">
+                            <div id="description" class="mt-8 mb-8">
+                                {{tool_description}}
+                            </div>
+                        </div>
+                    </div>
+                    <div id="output mt-4">
+                        {{results_headline}}
+                        {{search_parameters}}
+                        <p><pre>{{results|safe}}</pre></p>
+                        <p>{{csv_download_link}}<!--<a href="{{csv_download_link}}">Download</a>--></p> 
+                    </div>
+                </div>
+                <div class="col-2"></div>
+            </div>
+        </div>
+    </body>
+</html>

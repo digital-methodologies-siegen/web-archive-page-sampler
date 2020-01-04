@@ -1,3 +1,9 @@
+
+password.txt
+.csv
+**/.DS_Store
+/downloads
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
