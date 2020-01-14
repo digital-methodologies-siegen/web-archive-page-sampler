@@ -100,7 +100,7 @@ def page():
             f'<li>Include Subpages: {include_subpages}</li>'
             f'<li>Interval: {interval}</li>'
             f'<li>Diversify Sample: {diversify_intervals}</li>'
-            f'<li>Diversify All: {diversify_all}</li>'
+            f'<li>Diversify Results: {diversify_all}</li>'
             f'<li>results_per_interval: {results_per_interval}</li>'
             f'<li>Start date: {start_date}</li>'
             f'<li>End date: {end_date}</li></ul>')
